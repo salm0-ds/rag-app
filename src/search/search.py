@@ -1,103 +1,41 @@
-# llamaindex
-# open ai
-# postgres
-# cohere
-
 import cohere
-
-co = cohere.ClientV2(api_key="dXJ4Xc5xrc6egQnhLXO8w4L01iuprSsjrrTzQaZE") # Get your free API key: https://dashboard.cohere.com/api-keys
-
+import os
 
 from llama_index.core import VectorStoreIndex, StorageContext
 from llama_index.vector_stores.postgres import PGVectorStore
 from llama_index.core.vector_stores.types import MetadataFilter, MetadataFilters
-"""
-query = "what is this about"
-
-# 1. Connect to the existing store
-vector_store = PGVectorStore.from_params( # your existing Postgres connection parameters
-    hybrid_search=True, # Enable this if you want to use Postgres text search + vectors
-    database="myragdb",
-    host="localhost",
-    password="Aalam357!POSTGRES",
-    user="postgres",
-    port=5432,
-    table_name="vector_embeds",
-    embed_dim=1536,
-    text_search_config="english"
-)
-
-# 2. Assign the store to a context
-storage_context = StorageContext.from_defaults(vector_store=vector_store)
-
-# 3. Load the index from the existing store (NO documents passed)
-index = VectorStoreIndex.from_vector_store(
-    vector_store, 
-    storage_context=storage_context
-)
-
-retriever = index.as_retriever(vector_store_query_mode="hybrid", similarity_top_k=10)
-results = retriever.retrieve(query)
-
-
-list = []
-for i in range(len(results)):
-    list.append(results[i].node.text)
-
-
-
-response = co.rerank(
-    query=query,
-    documents=list,
-    top_n=3,
-    model="rerank-english-v3.0",
-)
-
-# top_chunks_after_rerank = [result.document['text'] for result in response]
-
-top_chunks_after_rerank = [list[result.index] for result in response.results]
-
-# preamble containing instructions about the task and the desired style for the output.
-
-
-
-# retrieved documents
-documents = [
-    {"data": {"title": "chunk 0", "snippet": top_chunks_after_rerank[0]}},
-    {"data": {"title": "chunk 1", "snippet": top_chunks_after_rerank[1]}},
-    {"data": {"title": "chunk 2", "snippet": top_chunks_after_rerank[2]}},
-  ]
-
-# get model response
-response = co.chat(
-  model="command-r-08-2024",
-  messages=[{"role" : "system", "content" : preamble},
-            {"role" : "user", "content" : query}],
-  documents=documents,  
-  temperature=0.3
-)
-
-print("Final answer:")
-print(response.message.content[0].text)
-
-"""
-
 from llama_index.embeddings.openai import OpenAIEmbedding
 
+api_key = os.getenv("OPENAI_API_KEY")
+embedding_model = os.getenv("EMBED_MODEL")
+cohere_api_key = os.getenv("COHERE_API_KEY")
+
+host=os.getenv("HOST")
+db_name=os.getenv("DB_NAME")
+db_user=os.getenv("DB_USER")
+db_password=os.getenv("DB_PASSWORD")
+db_port=os.getenv("DB_PORT")
+db_table_name=os.getenv("TABLE_NAME")
+rerank_model=os.getenv("RERANK_MODEL")
+
+co = cohere.ClientV2(api_key=cohere_api_key)
 embed_model = OpenAIEmbedding(
-    api_key="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",  # ideally from os.getenv("OPENAI_API_KEY")
-    model="text-embedding-3-small") 
+    api_key=api_key,
+    model=embedding_model) 
+
+# connect to database using llamaindex
+
 
 def rag_search(query: str, folder_id: str):
     
     vector_store = PGVectorStore.from_params( 
     hybrid_search=True,
-    database="myragdb",
-    host="localhost",
-    password="Aalam357!POSTGRES",
-    user="postgres",
-    port=5432,
-    table_name="vector_embeds",
+    database=db_name,
+    host=host,
+    password=db_password,
+    user=db_user,
+    port=db_port,
+    table_name=db_table_name,
     embed_dim=1536,
     text_search_config="english",
     )
@@ -116,12 +54,11 @@ def rag_search(query: str, folder_id: str):
     for i in range(len(results)):
         list.append(results[i].node.text)
 
-
     response = co.rerank(
         query=query,
         documents=list,
         top_n=3,
-        model="rerank-english-v3.0",
+        model=rerank_model,
         )
 
     top_chunks_after_rerank = [list[result.index] for result in response.results]

@@ -1,7 +1,8 @@
 from ingestion.s3 import uploads3
-from ingestion.rag_ingestion import rag_pipeline2
+from ingestion.rag_ingestion import rag_pipeline
 
 import logging
+import os
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -37,7 +38,8 @@ class UploadDoc:
         self.conn = conn
 
     def insert_doc_db(self, filename: str, folder_id: str):
-        doc_id_key = f"s3_ragapp-userfile-s3bucket-214269449513-eu-west-2-an/{filename}"
+        s3_address=os.getenv("S3_ADDRESS")
+        doc_id_key=s3_address+filename
 
         try:
             with self.conn.cursor() as cur:
@@ -63,12 +65,12 @@ class UploadMain:
     def __init__(self, upload_file_cls) -> None:
         self.upload_file_cls = upload_file_cls
 
-    def upload_function(self, folder_id: str, file) -> dict[int, str, str]:
+    def upload_function(self, folder_id: str, file) -> dict:
         filestream = file.file
         filename = file.filename
 
         if uploads3(file_stream=filestream, file_name=filename) is True:
-            if rag_pipeline2(filename=filename) is True:
+            if rag_pipeline(filename=filename) is True:
                 status = self.upload_file_cls(filename, folder_id)
             else:
                 status = "unsuccesful rag upload"

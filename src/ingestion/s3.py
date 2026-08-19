@@ -3,37 +3,25 @@ from botocore.exceptions import ClientError
 import logging
 import os
 
+aws_access_key=os.getenv("AWS_ACCESS_KEY")
+aws_secret_access=os.getenv("AWS_SECRET_ACCESS")
+region_name=os.getenv("REGION_NAME")
+aws_bucket=os.getenv("AWS_BUCKET")
 
 
 aws = boto3.Session(
-    aws_access_key_id="AKIATDY3UKUU2VG5GQF6",
-    aws_secret_access_key="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",
-    region_name="eu-west-2"
+    aws_access_key_id=aws_access_key,
+    aws_secret_access_key=aws_secret_access,
+    region_name=region_name
 )
 
 s3 = aws.client("s3")
 
 
-def upload_to_s3(
-        file_name: str, 
-        bucket: str = "ragapp-userfile-s3bucket-214269449513-eu-west-2-an"
-        ):
-    
-    try:
-        send_file = s3.upload_file(f"uploaded_docs/{file_name}", bucket, file_name)
-    except ClientError as e:
-        logging.error(e)
-        return False
-    except FileNotFoundError as e:
-        logging.error(e)
-        return False
-    return 
-
-
 def uploads3(
         file_stream,
         file_name,
-        bucket: str = "ragapp-userfile-s3bucket-214269449513-eu-west-2-an"
+        bucket: str = aws_bucket
         ):
 
     try:
@@ -52,22 +40,3 @@ def uploads3(
 # for vector search only pgvector rds
 
 # rds always needed if postgresql is uploaded to rds
-
-def download_from_s3(
-        file_name: str,
-        bucket: str = "ragapp-userfile-s3bucket-214269449513-eu-west-2-an"
-):
-    try:
-        s3.download_file(
-            bucket,
-            file_name,
-            f"uploaded_docs/{file_name}"
-        )
-    except ClientError as e:
-        logging.error(e)
-    
-
-    return {
-        "message": "download succesful"
-    }
-

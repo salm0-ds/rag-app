@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from auth import authenticate
+from db_conn import get_conn
 from repository.chat_repo import ChatManageLayer
 from repository.doc_repo import (DocLayer,
                                  UploadDoc,
@@ -12,10 +13,7 @@ from repository.message_repo import (ChatLayer,
                                      ChatApp,
                                      MessageApp)
 
-import psycopg2.pool
-import psycopg2
 import os
-import shutil
 import logging
 
 
@@ -31,35 +29,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-try:
-    db_pool = psycopg2.pool.SimpleConnectionPool(
-        minconn=1,
-        maxconn=20,
-        host='localhost',
-        dbname='myragdb',
-        user='postgres',
-        password='Aalam357!POSTGRES',
-        port=5432
-    )
-    logger.info("✅ Database pool created successfully")
-except Exception as e:
-    logger.error(f"❌ Database connection failed: {e}")
-    raise
-
-def get_conn():
-    """
-    FastAPI dependency: hand out a connection from the pool for the
-    duration of a single request, and always return it afterwards.
-    This replaces holding one global `conn` for the whole app's lifetime,
-    which is not safe across concurrent requests.
-    """
-    conn = db_pool.getconn()
-    try:
-        yield conn
-    finally:
-        db_pool.putconn(conn)
-
 
 class FolderCreate(BaseModel):
     name: str
@@ -159,9 +128,6 @@ def list_docs_main(folder_id: str,
     except Exception:
             logger.exception("list_docs failed")
             raise HTTPException(status_code=500, detail="Failed to generate response")
-
-UPLOAD_DIR = "uploaded_docs"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @app.post("/folders/{folder_id}/documents")
 def upload_file(folder_id: str, file: UploadFile = File(...), user_id: str = Depends(authenticate), conn=Depends(get_conn)):
