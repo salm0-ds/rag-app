@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+python-dotenv
+clerk-backend-api
+psycopg2-binary
+openai
+docling
+llama-index-core
+llama-index-readers-s3
+llama-index-vector-stores-postgres
+llama-index-embeddings-openai
+llama-parse
+pydantic
+boto3
+botocore
+cohere
