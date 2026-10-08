@@ -4,9 +4,9 @@ import pandas as pd
 
 import os
 
-# api_key  = os.environ["OPENAI_API_KEY"]
-# instructions  = os.environ["INSTRCUTIONS"]
-# input_payload  = os.environ["INPUT"]
+api_key  = os.environ["OPENAI_API_KEY"]
+instructions  = os.environ["GEN_QUERY_INSTRCUTIONS"]
+input_payload  = os.environ["INPUT"]
 
 # generate queries
 # use small set of human queries
@@ -21,7 +21,7 @@ class UserQuery(BaseModel):
                             max_length=75
                             )
 
-client = OpenAI(api_key="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")
+client = OpenAI(api_key=api_key)
 
 instructions = (
     "You are an AI benchmark engineer specializing in Retrieval-Augmented Generation (RAG) systems. "
@@ -53,6 +53,5 @@ while start < query_amount:
     start += 1
 
 df1 = pd.DataFrame({"query":rows})
-
 file_path = os.makedirs("backend/evals/datasets", exist_ok=True) 
 df1.to_csv("backend/evals/datasets/queries.csv", index=False)
