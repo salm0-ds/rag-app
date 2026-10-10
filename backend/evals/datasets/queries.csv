@@ -1,3 +1,6 @@
 query
-Why combine dense and sparse search for paraphrases and exact identifiers?
-"When queries mix paraphrases and IDs, why combine dense and sparse search?"
+"How do dense and sparse search miss different evidence, and why combine?"
+How do semantic embeddings and keyword search cover each other's blindspots
+Why combine embeddings and keywords when jargon and exact IDs both matter?
+Why combine dense and sparse search to catch paraphrases and exact IDs?
+How do exact-term misses in dense search justify adding sparse retrieval?

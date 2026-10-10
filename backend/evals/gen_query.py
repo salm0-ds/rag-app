@@ -4,15 +4,16 @@ import pandas as pd
 
 import os
 
-api_key  = os.environ["OPENAI_API_KEY"]
-instructions  = os.environ["GEN_QUERY_INSTRCUTIONS"]
-input_payload  = os.environ["INPUT"]
+# api_key  = os.environ["OPENAI_API_KEY"]
+api_key = "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"
+# instructions  = os.environ["GEN_QUERY_INSTRCUTIONS"]
+# input_payload  = os.environ["INPUT"]
+# query_amount = os.environ["RANGE"]
 
 # generate queries
 # use small set of human queries
 # output is strucutured
 
-query_amount = 2
 start = 0
 
 class UserQuery(BaseModel):
@@ -43,9 +44,10 @@ def generate_query() -> str:
         input=input_payload
     )
     return response
+
 csv_filename = "test_dataset3.csv"
 rows= []
-while start < query_amount:
+while start < 5:
     gen_query = generate_query()
     data: UserQuery = gen_query.output_parsed
     string = data.user_query
