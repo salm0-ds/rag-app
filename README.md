@@ -1,5 +1,5 @@
 # Multi-Tenant RAG Platform (AWS Deployed)
-A production-oriented RAG platform where users can upload, organise and query their own documents through multiple chats and folders with persistent memory.
+A RAG platform where users can upload documents and query them, with persistent memory within chats.
 > **Note:** The backend is the focus of this project and is entirely manually coded. The frontend (Vite + React) is very minimal and entirely AI-generated
 
 ### Key Features
@@ -8,8 +8,8 @@ A production-oriented RAG platform where users can upload, organise and query th
 - 👤 Multi-tenant user data isolation
 - 📁 Create, rename and delete folders (CRUD)
 - 📄 Upload, process and delete PDF, DOCX, TXT documents and more...
-- 💬 Multiple chats per folder with persistent chat history
-- 🧠 LLM-based intent classification to determine whether retrieval is required
+- 💬 Multiple chats per folder with persistent chat memory
+- 🧠 LLM-based intent classification to determine whether retrieval is even required
 - 🔎 Hybrid vector + PostgreSQL full-text search
 - 🎯 Cohere reranking of retrieved chunks
 - 🤖 LLM answer generation using retrieved context
