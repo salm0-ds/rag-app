@@ -1,0 +1,10 @@
+venv/
+*.env
+__pycache__
+src/*__pycache__
+ingestion/*__pycache__
+repository/*__pycache__
+search/*__pycache__
+uploaded_docs
+test/
+tore --staged .
