@@ -1,6 +1,7 @@
-query
-"How do dense and sparse search miss different evidence, and why combine?"
-How do semantic embeddings and keyword search cover each other's blindspots
-Why combine embeddings and keywords when jargon and exact IDs both matter?
-Why combine dense and sparse search to catch paraphrases and exact IDs?
-How do exact-term misses in dense search justify adding sparse retrieval?
+user_query,reference
+How long does the Northstar policy retain deactivated accounts?,The Northstar policy retains deactivated accounts for 90 days after deactiv
+When should OAuth clients use PKCE with the authorization code flow?,Use PKCE with the authorization code flow for all client types. It is a key
+"How long are audit logs kept, and what happens after expiry?","Reference answer: Audit logs are retained for 90 days, then permanently pur"
+What made the 1972 Clean Water Act different from earlier rules?,"The 1972 amendments shifted U.S. water pollution control toward national, f"
+How did Apollo 13 conserve command-module power during the crisis?,The crew shut down most of the command module’s systems and moved into the.
+Which HTTP status code means accepted but not yet processed?,"HTTP 202 Accepted means the request was accepted for processing, but the **"

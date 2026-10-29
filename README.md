@@ -1,5 +1,5 @@
 # Multi-Tenant RAG Platform (AWS Deployed)
-A RAG platform where users can upload documents and query them, with persistent memory within chats.
+A RAG platform where users can upload documents and query them, with persistent memory within chats. 
 > **Note:** The backend is the focus of this project and is entirely manually coded. The frontend (Vite + React) is very minimal and entirely AI-generated
 
 ### Key Features

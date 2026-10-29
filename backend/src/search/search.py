@@ -6,6 +6,7 @@ from llama_index.vector_stores.postgres import PGVectorStore
 from llama_index.core.vector_stores.types import MetadataFilter, MetadataFilters
 from llama_index.embeddings.openai import OpenAIEmbedding
 
+
 api_key = os.getenv("OPENAI_API_KEY")
 embedding_model = os.getenv("EMBED_MODEL")
 cohere_api_key = os.getenv("COHERE_API_KEY")
@@ -24,7 +25,6 @@ embed_model = OpenAIEmbedding(
     model=embedding_model) 
 
 # connect to database using llamaindex
-
 
 def rag_search(query: str, folder_id: str):
     

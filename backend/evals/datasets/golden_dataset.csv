@@ -1,6 +1,0 @@
-query,output,ground_truth
-"How do dense and sparse search miss different evidence, and why combine?",llm_answer,llm_answer
-How do semantic embeddings and keyword search cover each other's blindspots,llm_answer,llm_answer
-Why combine embeddings and keywords when jargon and exact IDs both matter?,llm_answer,llm_answer
-Why combine dense and sparse search to catch paraphrases and exact IDs?,llm_answer,llm_answer
-How do exact-term misses in dense search justify adding sparse retrieval?,llm_answer,llm_answer
